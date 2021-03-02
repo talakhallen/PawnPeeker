@@ -66,6 +66,8 @@ namespace PawnPeeker
                     FromWorld = true;
 
                     FromWorldPosition = Find.WorldCameraDriver.CurrentlyLookingAtPointOnSphere;
+
+                    Debug.Log(string.Format("Peek pawn from world from {0}!", FromWorldPosition));
                 }
             }
             else
@@ -76,6 +78,8 @@ namespace PawnPeeker
 
                     FromMapPosition = Find.CameraDriver.MapPosition;
                     FromMap = Find.CurrentMap;
+
+                    Debug.Log(string.Format("Peek pawn from {0} at {1}!", FromMap, FromMapPosition));
                 }
             }
 
@@ -104,6 +108,8 @@ namespace PawnPeeker
             }
             else
             {
+                Debug.Log("Stay at pawn!");
+
                 Stay = false;
             }
         }

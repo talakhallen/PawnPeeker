@@ -10,6 +10,8 @@ namespace PawnPeeker
     {
         public Mod(ModContentPack content) : base(content)
         {
+            Debug.Log("PawnPeeker Mod!");
+
             GetSettings<Settings>();
 
 #if DEBUG

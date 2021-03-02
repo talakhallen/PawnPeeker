@@ -39,6 +39,8 @@ namespace PawnPeeker
                 {
                     if (!Hover.Previously)
                     {
+                        Debug.Log("Start hovering!");
+
                         Hover.TryStart();
 
                         if (!float.IsNaN(Hover.StopTime))
@@ -49,6 +51,8 @@ namespace PawnPeeker
 
                     if (!Peek.Now && Hover.IsStarted())
                     {
+                        Debug.Log("Started hovering!");
+
                         Peek.Now = true;
                     }
                 }
@@ -56,16 +60,22 @@ namespace PawnPeeker
                 {
                     if (float.IsNaN(Hover.StopTime) && Hover.IsStarted())
                     {
+                        Debug.Log("Stop hovering!");
+
                         Hover.TryStop();
                     }
 
                     if (Peek.Now && Peek.IsDoneLingering())
                     {
+                        Debug.Log("Stopped lingering!");
+
                         Peek.Now = false;
                     }
 
                     if (Hover.DidStartWaitTimeout())
                     {
+                        Debug.Log("Start wait timed out!");
+
                         Hover.StopTime = float.NaN;
 
                         Hover.StartTime = float.NaN;
@@ -75,12 +85,19 @@ namespace PawnPeeker
                 // Peek
                 if (Peek.Now)
                 {
+                    if (!Peek.Previously)
+                    {
+                        Debug.Log(string.Format("Peek {0}!", Peek.Colonist.Name));
+                    }
+
                     Peek.TryJump(Peek.Colonist, WorldRendererUtility.WorldRenderedNow);
                 }
                 else
                 {
                     if (Peek.Previously)
                     {
+                        Debug.Log("Not peeking!");
+
                         Peek.TryStop();
                     }
                 }
@@ -136,6 +153,8 @@ namespace PawnPeeker
 
             static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
             {
+                Debug.Log("HandleClicks Transpiler!");
+
                 bool found = false;
 
                 foreach (CodeInstruction instruction in instructions)
@@ -147,6 +166,8 @@ namespace PawnPeeker
                         if (!found)
                         {
                             found = true;
+
+                            Debug.Log("HandleClicks Transpiler DidHandleDoubleClick!");
 
                             yield return new CodeInstruction(OpCodes.Call,
                                                              AccessTools.Method(typeof(HandleClicks),
@@ -160,10 +181,14 @@ namespace PawnPeeker
 
             static void DidHandleDoubleClick()
             {
+                Debug.Log("DidHandleDoubleClick!");
+
                 if (ShouldHandleDoubleClick)
                 {
                     if (!Peek.Stay)
                     {
+                        Debug.Log("DidHandleDoubleClick stay!");
+
                         Peek.Stay = true;
                     }
                 }
