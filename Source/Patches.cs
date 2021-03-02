@@ -117,8 +117,9 @@ namespace PawnPeeker
                     return true;
                 }
 
-                // Only peek a pawn when on the same map.
-                if ((!colonist.IsWorldPawn() && !WorldRendererUtility.WorldRenderedNow && colonist.Map == Find.CurrentMap) ||
+                if (Peek.PawnsAnywhere ||
+                    // Only peek a pawn when on the same map.
+                    (!colonist.IsWorldPawn() && !WorldRendererUtility.WorldRenderedNow && colonist.Map == Find.CurrentMap) ||
                     // Only peek a world pawn when the world is rendered.
                     (colonist.IsWorldPawn() && WorldRendererUtility.WorldRenderedNow))
                 {
