@@ -16,6 +16,7 @@ namespace PawnPeeker
         {
             public static float LingerTimeSeconds = 0.5f;
             public static bool PawnsAnywhere = false;
+            public static bool Select = false;
         }
 
         public static Settings Get()
@@ -82,11 +83,20 @@ namespace PawnPeeker
                                      ref Peek.PawnsAnywhere,
                                      "If true, peek pawns anywhere. If false, only peek pawns on the same map.");
 
+            /* Peek select. */
+            settings.CheckboxLabeled("Peek and select",
+                                     ref Peek.Select,
+                                     "If true, select the pawn being peeked. " +
+                                     "If false, do not select the pawn being peeked. " +
+                                     "The peeked pawn remains selected even after peeking and it is impossible to select multiple pawns while peeking.");
+
             settings.End();
         }
 
         public override void ExposeData()
         {
+            Scribe_Values.Look(ref Peek.Select, "peekAndSelect", false);
+
             Scribe_Values.Look(ref Peek.PawnsAnywhere, "peekPawnsAnywhere", false);
 
             Scribe_Values.Look(ref Hover.StartDelaySeconds, "hoverStartDelaySeconds", 1.0f);

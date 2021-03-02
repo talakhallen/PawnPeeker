@@ -33,6 +33,18 @@ namespace PawnPeeker
         {
             Patch.HandleClicks.ShouldHandleDoubleClick = false;
 
+            if (Settings.Peek.Select)
+            {
+                if (!Find.Selector.IsSelected(colonist))
+                {
+                    Debug.Log(string.Format("Selected {0}!", colonist.Name));
+
+                    // TODO: Restore the previous selection after peeking.
+                    Find.Selector.ClearSelection();
+                    Find.Selector.Select(colonist);
+                }
+            }
+
             if (colonist.IsWorldPawn())
             {
                 CameraJumper.TryJump(colonist);
