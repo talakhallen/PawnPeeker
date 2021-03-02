@@ -22,14 +22,10 @@ namespace PawnPeeker
         public static IntVec3 FromMapPosition;
         public static Map FromMap;
 
-        // Settings
-        public static float LingerTimeSeconds = 0.5f;
-        public static bool PawnsAnywhere = false;
-
         public static bool IsDoneLingering()
         {
             return !float.IsNaN(Hover.StopTime) &&
-                   ((Time.realtimeSinceStartup - Hover.StopTime) >= Peek.LingerTimeSeconds);
+                   ((Time.realtimeSinceStartup - Hover.StopTime) >= Settings.Peek.LingerTimeSeconds);
         }
 
         public static void TryJump(Pawn colonist, bool worldRenderedNow)

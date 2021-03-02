@@ -12,10 +12,6 @@ namespace PawnPeeker
         public static float StartTime = float.NaN;
         public static float StopTime = float.NaN;
 
-        // Settings
-        public static float StartDelaySeconds = 0.5f;
-        public static float StartDelayTimeoutSeconds = 0.5f;
-
         public static void TryStart()
         {
             if (float.IsNaN(Hover.StartTime))
@@ -35,13 +31,13 @@ namespace PawnPeeker
         public static bool IsStarted()
         {
             return !float.IsNaN(Hover.StartTime) &&
-                   ((Time.realtimeSinceStartup - Hover.StartTime) >= Hover.StartDelaySeconds);
+                   ((Time.realtimeSinceStartup - Hover.StartTime) >= Settings.Hover.StartDelaySeconds);
         }
 
         public static bool DidStartWaitTimeout()
         {
             return !float.IsNaN(Hover.StopTime) &&
-                   ((Time.realtimeSinceStartup - Hover.StopTime) >= Hover.StartDelayTimeoutSeconds);
+                   ((Time.realtimeSinceStartup - Hover.StopTime) >= Settings.Hover.StartDelayTimeoutSeconds);
         }
     }
 }
