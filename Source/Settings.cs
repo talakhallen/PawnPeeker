@@ -73,6 +73,8 @@ namespace PawnPeeker
             if (Peek.LingerTimeSeconds > Hover.StartDelayTimeoutSeconds)
             {
                 Log.Error("Peek linger time must be less than or equal to hover start delay timeout!");
+
+                Peek.LingerTimeSeconds = Hover.StartDelayTimeoutSeconds;
             }
 
             /* Experimental settings. */
