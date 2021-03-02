@@ -1,4 +1,6 @@
-﻿using HarmonyLib;
+﻿using System.Reflection;
+
+using HarmonyLib;
 using Verse;
 
 using UnityEngine;
@@ -10,7 +12,7 @@ namespace PawnPeeker
     {
         public Mod(ModContentPack content) : base(content)
         {
-            Debug.Log("PawnPeeker Mod!");
+            Debug.Log(Assembly.GetExecutingAssembly().ToString());
 
             GetSettings<Settings>();
 
