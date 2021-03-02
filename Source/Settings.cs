@@ -81,7 +81,8 @@ namespace PawnPeeker
             /* Peek pawns anywhere. */
             settings.CheckboxLabeled("Peek pawns anywhere",
                                      ref Peek.PawnsAnywhere,
-                                     "If true, peek pawns anywhere. If false, only peek pawns on the same map.");
+                                     "If true, peek pawns anywhere. " +
+                                     "If false, only peek pawns on the same map.");
 
             /* Peek select. */
             settings.CheckboxLabeled("Peek and select",
