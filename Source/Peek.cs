@@ -13,7 +13,8 @@ namespace PawnPeeker
         public static bool Stay = false;
 
         // To
-        public static Pawn Colonist;
+        public static Pawn NowColonist;
+        public static Pawn PreviousColonist;
 
         // From
         public static bool FromWorld;
@@ -54,7 +55,7 @@ namespace PawnPeeker
             Patch.HandleClicks.ShouldHandleDoubleClick = true;
         }
 
-        public static void StartOrContinue(Pawn colonist, bool worldRenderedNow)
+        public static void SavePosition(bool worldRenderedNow)
         {
             // Save the current world position or map position. Always jump to
             // the original world position or map position even if multiple
@@ -82,8 +83,6 @@ namespace PawnPeeker
                     Debug.Log(string.Format("Peek pawn from {0} at {1}!", FromMap, FromMapPosition));
                 }
             }
-
-            Peek.Colonist = colonist;
         }
 
         public static void TryStop()

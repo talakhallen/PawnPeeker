@@ -49,7 +49,9 @@ namespace PawnPeeker
                         }
                     }
 
-                    if (!Peek.Now && Hover.IsStarted())
+                    if ((!Peek.Now ||
+                         (Peek.PreviousColonist != Peek.NowColonist)) &&
+                        Hover.IsStarted())
                     {
                         Debug.Log("Started hovering!");
 
@@ -85,12 +87,14 @@ namespace PawnPeeker
                 // Peek
                 if (Peek.Now)
                 {
-                    if (!Peek.Previously)
-                    {
-                        Debug.Log(string.Format("Peek {0}!", Peek.Colonist.Name));
-                    }
+                    Peek.TryJump(Peek.NowColonist, WorldRendererUtility.WorldRenderedNow);
 
-                    Peek.TryJump(Peek.Colonist, WorldRendererUtility.WorldRenderedNow);
+                    if (Peek.PreviousColonist != Peek.NowColonist)
+                    {
+                        Debug.Log(string.Format("Peek {0}!", Peek.NowColonist.Name));
+
+                        Peek.PreviousColonist = Peek.NowColonist;
+                    }
                 }
                 else
                 {
@@ -144,7 +148,12 @@ namespace PawnPeeker
 
                     if (!Peek.Previously)
                     {
-                        Peek.StartOrContinue(colonist, WorldRendererUtility.WorldRenderedNow);
+                        Peek.SavePosition(WorldRendererUtility.WorldRenderedNow);
+                    }
+
+                    if (Peek.PreviousColonist != colonist)
+                    {
+                        Peek.NowColonist = colonist;
                     }
                 }
 
