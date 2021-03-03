@@ -20,7 +20,7 @@ namespace PawnPeeker
             Harmony.DEBUG = true;
 #endif
 
-            Harmony harmony = new Harmony("com.talakhallen.pawnpeeker");
+            Harmony harmony = new Harmony("com.talakhallen.PawnPeeker");
             harmony.PatchAll();
         }
 
