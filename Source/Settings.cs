@@ -17,6 +17,7 @@ namespace PawnPeeker
         public class Peek
         {
             public static float LingerTimeSeconds;
+
             public static bool PawnsAnywhere;
             public static bool Select;
         }
@@ -53,14 +54,14 @@ namespace PawnPeeker
                            "Number of seconds to wait while not hovering over a pawn's portrait before timing out and resetting the hover start delay.");
             float hoverStartDelayTimeoutSeconds = settings.Slider(Hover.StartDelayTimeoutSeconds, 0.0f, 10.0f);
 
-            if (hoverStartDelayTimeoutSeconds != Hover.StartDelayTimeoutSeconds)
-            {
-                peekLingerTimeSeconds = Math.Min(peekLingerTimeSeconds, hoverStartDelayTimeoutSeconds);
-            }
-
             if (peekLingerTimeSeconds != Peek.LingerTimeSeconds)
             {
                 hoverStartDelayTimeoutSeconds = Math.Max(hoverStartDelayTimeoutSeconds, peekLingerTimeSeconds);
+            }
+
+            if (hoverStartDelayTimeoutSeconds != Hover.StartDelayTimeoutSeconds)
+            {
+                peekLingerTimeSeconds = Math.Min(peekLingerTimeSeconds, hoverStartDelayTimeoutSeconds);
             }
 
             Peek.LingerTimeSeconds = peekLingerTimeSeconds;
@@ -94,13 +95,13 @@ namespace PawnPeeker
 
         public override void ExposeData()
         {
-            Scribe_Values.Look(ref Peek.Select, "peekAndSelect", false);
-
-            Scribe_Values.Look(ref Peek.PawnsAnywhere, "peekPawnsAnywhere", false);
-
             Scribe_Values.Look(ref Hover.StartDelaySeconds, "hoverStartDelaySeconds", 0.5f);
-            Scribe_Values.Look(ref Peek.LingerTimeSeconds, "peekLingerTimeSeconds", 0.5f);
             Scribe_Values.Look(ref Hover.StartDelayTimeoutSeconds, "hoverStartDelayTimeoutSeconds", 0.5f);
+
+            Scribe_Values.Look(ref Peek.LingerTimeSeconds, "peekLingerTimeSeconds", 0.5f);
+
+            Scribe_Values.Look(ref Peek.Select, "peekAndSelect", false);
+            Scribe_Values.Look(ref Peek.PawnsAnywhere, "peekPawnsAnywhere", false);
         }
     }
 }
