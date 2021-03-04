@@ -8,15 +8,15 @@ namespace PawnPeeker
     {
         public class Hover
         {
-            public static float StartDelaySeconds = 0.5f;
-            public static float StartDelayTimeoutSeconds = 0.5f;
+            public static float StartDelaySeconds;
+            public static float StartDelayTimeoutSeconds;
         }
 
         public class Peek
         {
-            public static float LingerTimeSeconds = 0.5f;
-            public static bool PawnsAnywhere = false;
-            public static bool Select = false;
+            public static float LingerTimeSeconds;
+            public static bool PawnsAnywhere;
+            public static bool Select;
         }
 
         public static Settings Get()
