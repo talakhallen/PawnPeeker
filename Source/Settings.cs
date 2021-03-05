@@ -102,9 +102,9 @@ namespace PawnPeeker
 
             Scribe_Values.Look(ref Peek.PawnsAnywhere, "peekPawnsAnywhere", false);
 
-            Scribe_Values.Look(ref Hover.StartDelaySeconds, "hoverStartDelaySeconds", 1.0f);
-            Scribe_Values.Look(ref Peek.LingerTimeSeconds, "hoverLingerTimeSeconds", 1.0f);
-            Scribe_Values.Look(ref Hover.StartDelayTimeoutSeconds, "hoverStartDelayTimeoutSeconds", 1.0f);
+            Scribe_Values.Look(ref Hover.StartDelaySeconds, "hoverStartDelaySeconds", 0.5f);
+            Scribe_Values.Look(ref Peek.LingerTimeSeconds, "hoverLingerTimeSeconds", 0.5f);
+            Scribe_Values.Look(ref Hover.StartDelayTimeoutSeconds, "hoverStartDelayTimeoutSeconds", 0.5f);
         }
     }
 }
