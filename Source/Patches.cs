@@ -78,6 +78,14 @@ namespace PawnPeeker
                 }
                 else
                 {
+                    // Reset the start time if hovering never started.
+                    if (!float.IsNaN(Hover.StartTime) && !Hover.IsStarted())
+                    {
+                        Debug.Log("Reset start time!");
+
+                        Hover.StartTime = float.NaN;
+                    }
+
                     if (float.IsNaN(Hover.StopTime) && Hover.IsStarted())
                     {
                         Debug.Log("Stop hovering!");
