@@ -19,6 +19,7 @@ namespace PawnPeeker
             public static float WhileLingerTimeSeconds;
             public static float LingerTimeSeconds;
 
+            public static bool AndLinger;
             public static bool PawnsAnywhere;
             public static bool Select;
         }
@@ -101,6 +102,12 @@ namespace PawnPeeker
             /* Experimental settings. */
             settings.Label("WARNING: EXPERIMENTAL!");
 
+            /* Peek and linger. */
+            settings.CheckboxLabeled("Peek and linger",
+                                     ref Peek.AndLinger,
+                                     "If true, linger forever after peeking. " +
+                                     "If false, do not linger forever after peeking.");
+
             /* Peek pawns anywhere. */
             settings.CheckboxLabeled("Peek pawns anywhere",
                                      ref Peek.PawnsAnywhere,
@@ -125,6 +132,7 @@ namespace PawnPeeker
             Scribe_Values.Look(ref Peek.WhileLingerTimeSeconds, "peekWhileLingerTimeSeconds", 0.5f);
             Scribe_Values.Look(ref Peek.LingerTimeSeconds, "peekLingerTimeSeconds", 0.5f);
 
+            Scribe_Values.Look(ref Peek.AndLinger, "peekAndLinger", false);
             Scribe_Values.Look(ref Peek.Select, "peekAndSelect", false);
             Scribe_Values.Look(ref Peek.PawnsAnywhere, "peekPawnsAnywhere", false);
         }

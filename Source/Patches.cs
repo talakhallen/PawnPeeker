@@ -130,7 +130,10 @@ namespace PawnPeeker
                     {
                         Debug.Log("Done peeking!");
 
-                        Peek.TryStop();
+                        if (!Settings.Peek.AndLinger)
+                        {
+                            Peek.TryStop();
+                        }
                     }
                 }
 
