@@ -22,6 +22,8 @@ namespace PawnPeeker
 
                 Hover.Now = false;
 
+                HandleClicks.Did = false;
+
                 return true;
             }
 
@@ -29,6 +31,20 @@ namespace PawnPeeker
 
             static void Postfix()
             {
+                // Reset the start time if there was a click and hovering has
+                // not started.
+                if (HandleClicks.Did)
+                {
+                    if (!float.IsNaN(Hover.StartTime) && !Hover.IsStarted())
+                    {
+                        Debug.Log("Reset start time after click!");
+
+                        Hover.StartTime = float.NaN;
+
+                        Hover.TryStart();
+                    }
+                }
+
                 if (!Hover.Handled)
                 {
                     return;
@@ -115,6 +131,8 @@ namespace PawnPeeker
         [HarmonyPatch(typeof(ColonistBarColonistDrawer), nameof(ColonistBarColonistDrawer.HandleClicks))]
         static class HandleClicks
         {
+            public static bool Did = false;
+
             public static bool ShouldHandleDoubleClick = true;
 
             static bool Prefix(Rect rect, Pawn colonist)
@@ -128,6 +146,8 @@ namespace PawnPeeker
                     Input.GetMouseButton(1) ||
                     Input.GetMouseButton(2))
                 {
+                    Did = true;
+
                     return true;
                 }
 
