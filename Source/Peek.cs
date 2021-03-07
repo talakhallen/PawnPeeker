@@ -39,7 +39,7 @@ namespace PawnPeeker
         {
             Patch.HandleClicks.ShouldHandleDoubleClick = false;
 
-            if (Settings.Peek.Select)
+            if (Settings.Peek.AndSelect)
             {
                 if (!Find.Selector.IsSelected(colonist))
                 {
