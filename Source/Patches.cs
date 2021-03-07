@@ -55,16 +55,14 @@ namespace PawnPeeker
                 // Hover
                 if (Hover.Now)
                 {
-                    if (!Hover.Previously)
+                    if (Hover.TryStart())
                     {
                         Debug.Log("Start hovering!");
+                    }
 
-                        Hover.TryStart();
-
-                        if (!float.IsNaN(Hover.StopTime))
-                        {
-                            Hover.StopTime = float.NaN;
-                        }
+                    if (!float.IsNaN(Hover.StopTime))
+                    {
+                        Hover.StopTime = float.NaN;
                     }
 
                     if ((!Peek.Now ||
@@ -86,11 +84,12 @@ namespace PawnPeeker
                         Hover.StartTime = float.NaN;
                     }
 
-                    if (float.IsNaN(Hover.StopTime) && Hover.IsStarted())
+                    if (Hover.IsStarted())
                     {
-                        Debug.Log("Stop hovering!");
-
-                        Hover.TryStop();
+                        if (Hover.TryStop())
+                        {
+                            Debug.Log("Stop hovering!");
+                        }
                     }
 
                     if (Peek.Now && Peek.IsDonePeekingWhileLingering())
