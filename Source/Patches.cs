@@ -69,7 +69,7 @@ namespace PawnPeeker
 
                     if (Peek.Now && Peek.IsDoneLingering())
                     {
-                        Debug.Log("Stopped lingering!");
+                        Debug.Log("Done lingering!");
 
                         Peek.Now = false;
                     }
@@ -100,7 +100,7 @@ namespace PawnPeeker
                 {
                     if (Peek.Previously)
                     {
-                        Debug.Log("Not peeking!");
+                        Debug.Log("Done peeking!");
 
                         Peek.TryStop();
                     }
