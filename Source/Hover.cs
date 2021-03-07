@@ -12,20 +12,28 @@ namespace PawnPeeker
         public static float StartTime = float.NaN;
         public static float StopTime = float.NaN;
 
-        public static void TryStart()
+        public static bool TryStart()
         {
             if (float.IsNaN(Hover.StartTime))
             {
                 Hover.StartTime = Time.realtimeSinceStartup;
+
+                return true;
             }
+
+            return false;
         }
 
-        public static void TryStop()
+        public static bool TryStop()
         {
             if (float.IsNaN(Hover.StopTime))
             {
                 Hover.StopTime = Time.realtimeSinceStartup;
+
+                return true;
             }
+
+            return false;
         }
 
         public static bool IsStarted()
