@@ -16,6 +16,7 @@ namespace PawnPeeker
 
         public class Peek
         {
+            public static float WhileLingerTimeSeconds;
             public static float LingerTimeSeconds;
 
             public static bool PawnsAnywhere;
@@ -40,6 +41,13 @@ namespace PawnPeeker
                            "Number of seconds to wait while hovering over a pawn's portrait before peeking that pawn.");
             Hover.StartDelaySeconds = settings.Slider(Hover.StartDelaySeconds, 0.0f, 10.0f);
 
+            /* Peek while lingering time. */
+            settings.Label(string.Format("Peek while lingering time in seconds: {0:0.00}",
+                                         Peek.WhileLingerTimeSeconds),
+                           -1,
+                           "Number of seconds to continue peeking a pawn while not hovering over that pawn's portrait.");
+            float peekWhileLingerTimeSeconds = settings.Slider(Peek.WhileLingerTimeSeconds, 0.0f, 10.0f);
+
             /* Linger time. */
             settings.Label(string.Format("Linger time in seconds: {0:0.00}",
                                          Peek.LingerTimeSeconds),
@@ -54,16 +62,25 @@ namespace PawnPeeker
                            "Number of seconds to wait while not hovering over a pawn's portrait before timing out and resetting the hover start delay.");
             float hoverStartDelayTimeoutSeconds = settings.Slider(Hover.StartDelayTimeoutSeconds, 0.0f, 10.0f);
 
+            if (peekWhileLingerTimeSeconds != Peek.WhileLingerTimeSeconds)
+            {
+                peekLingerTimeSeconds = Math.Max(peekLingerTimeSeconds, peekWhileLingerTimeSeconds);
+                hoverStartDelayTimeoutSeconds = Math.Max(hoverStartDelayTimeoutSeconds, peekWhileLingerTimeSeconds);
+            }
+
             if (peekLingerTimeSeconds != Peek.LingerTimeSeconds)
             {
+                peekWhileLingerTimeSeconds = Math.Min(peekWhileLingerTimeSeconds, peekLingerTimeSeconds);
                 hoverStartDelayTimeoutSeconds = Math.Max(hoverStartDelayTimeoutSeconds, peekLingerTimeSeconds);
             }
 
             if (hoverStartDelayTimeoutSeconds != Hover.StartDelayTimeoutSeconds)
             {
+                peekWhileLingerTimeSeconds = Math.Min(peekWhileLingerTimeSeconds, hoverStartDelayTimeoutSeconds);
                 peekLingerTimeSeconds = Math.Min(peekLingerTimeSeconds, hoverStartDelayTimeoutSeconds);
             }
 
+            Peek.WhileLingerTimeSeconds = peekWhileLingerTimeSeconds;
             Peek.LingerTimeSeconds = peekLingerTimeSeconds;
             Hover.StartDelayTimeoutSeconds = hoverStartDelayTimeoutSeconds;
 
@@ -72,6 +89,13 @@ namespace PawnPeeker
                 Log.Error("Peek linger time must be less than or equal to hover start delay timeout!");
 
                 Peek.LingerTimeSeconds = Hover.StartDelayTimeoutSeconds;
+            }
+
+            if (Peek.WhileLingerTimeSeconds > Peek.LingerTimeSeconds)
+            {
+                Log.Error("Peek while lingering time must be less than or equal to peek linger time!");
+
+                Peek.WhileLingerTimeSeconds = Peek.LingerTimeSeconds;
             }
 
             /* Experimental settings. */
@@ -98,6 +122,7 @@ namespace PawnPeeker
             Scribe_Values.Look(ref Hover.StartDelaySeconds, "hoverStartDelaySeconds", 0.5f);
             Scribe_Values.Look(ref Hover.StartDelayTimeoutSeconds, "hoverStartDelayTimeoutSeconds", 0.5f);
 
+            Scribe_Values.Look(ref Peek.WhileLingerTimeSeconds, "peekWhileLingerTimeSeconds", 0.5f);
             Scribe_Values.Look(ref Peek.LingerTimeSeconds, "peekLingerTimeSeconds", 0.5f);
 
             Scribe_Values.Look(ref Peek.Select, "peekAndSelect", false);

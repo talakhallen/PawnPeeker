@@ -23,6 +23,12 @@ namespace PawnPeeker
         public static IntVec3 FromMapPosition;
         public static Map FromMap;
 
+        public static bool IsDonePeekingWhileLingering()
+        {
+            return !float.IsNaN(Hover.StopTime) &&
+                   ((Time.realtimeSinceStartup - Hover.StopTime) >= Settings.Peek.WhileLingerTimeSeconds);
+        }
+
         public static bool IsDoneLingering()
         {
             return !float.IsNaN(Hover.StopTime) &&

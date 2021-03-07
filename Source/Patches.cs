@@ -50,6 +50,8 @@ namespace PawnPeeker
                     return;
                 }
 
+                bool isDonePeekingWhileLingering = false;
+
                 // Hover
                 if (Hover.Now)
                 {
@@ -83,6 +85,13 @@ namespace PawnPeeker
                         Hover.TryStop();
                     }
 
+                    if (Peek.Now && Peek.IsDonePeekingWhileLingering())
+                    {
+                        Debug.Log("Done peeking while lingering!");
+
+                        isDonePeekingWhileLingering = true;
+                    }
+
                     if (Peek.Now && Peek.IsDoneLingering())
                     {
                         Debug.Log("Done lingering!");
@@ -103,13 +112,16 @@ namespace PawnPeeker
                 // Peek
                 if (Peek.Now)
                 {
-                    Peek.TryJump(Peek.NowColonist, WorldRendererUtility.WorldRenderedNow);
-
-                    if (Peek.PreviousColonist != Peek.NowColonist)
+                    if (!isDonePeekingWhileLingering)
                     {
-                        Debug.Log(string.Format("Peek {0}!", Peek.NowColonist.Name));
+                        Peek.TryJump(Peek.NowColonist, WorldRendererUtility.WorldRenderedNow);
 
-                        Peek.PreviousColonist = Peek.NowColonist;
+                        if (Peek.PreviousColonist != Peek.NowColonist)
+                        {
+                            Debug.Log(string.Format("Peek {0}!", Peek.NowColonist.Name));
+
+                            Peek.PreviousColonist = Peek.NowColonist;
+                        }
                     }
                 }
                 else
