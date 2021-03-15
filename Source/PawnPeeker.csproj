@@ -71,7 +71,6 @@
     <Compile Include="Debug.cs" />
     <Compile Include="Hover.cs" />
     <Compile Include="Mod.cs" />
-    <Compile Include="Patches.cs" />
     <Compile Include="PawnPeeker.cs" />
     <Compile Include="Peek.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
