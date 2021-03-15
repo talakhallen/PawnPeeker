@@ -26,7 +26,7 @@ namespace PawnPeeker
 
         public static Settings Get()
         {
-            return LoadedModManager.GetMod<PawnPeeker.Mod>().GetSettings<Settings>();
+            return LoadedModManager.GetMod<Mod>().GetSettings<Settings>();
         }
 
         public void DoWindowContents(Rect wrect)

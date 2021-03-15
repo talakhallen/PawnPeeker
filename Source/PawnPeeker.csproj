@@ -70,7 +70,7 @@
   <ItemGroup>
     <Compile Include="Debug.cs" />
     <Compile Include="Hover.cs" />
-    <Compile Include="Main.cs" />
+    <Compile Include="Mod.cs" />
     <Compile Include="Patches.cs" />
     <Compile Include="Peek.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
