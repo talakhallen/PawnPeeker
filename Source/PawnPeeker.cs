@@ -17,6 +17,8 @@ namespace PawnPeeker
 
         public override void GameComponentOnGUI()
         {
+            Hover.Now = false;
+
             if (Input.GetMouseButton(0) ||
                 Input.GetMouseButton(1) ||
                 Input.GetMouseButton(2))
@@ -26,29 +28,27 @@ namespace PawnPeeker
                 return;
             }
 
-            Hover.Handled = true;
+            Did = false;
 
-            if (!Mouse.IsOver(rect))
+            if (Find.ColonistBar.ColonistOrCorpseAt(UI.MousePositionOnUIInverted) is Pawn colonist)
             {
-                return true;
-            }
-
-            if (Settings.Peek.PawnsAnywhere ||
-                // Only peek a pawn when on the same map.
-                (!colonist.IsWorldPawn() && !WorldRendererUtility.WorldRenderedNow && colonist.Map == Find.CurrentMap) ||
-                // Only peek a world pawn when the world is rendered.
-                (colonist.IsWorldPawn() && WorldRendererUtility.WorldRenderedNow))
-            {
-                Hover.Now = true;
-
-                if (!Peek.Previously)
+                if (Settings.Peek.PawnsAnywhere ||
+                    // Only peek a pawn when on the same map.
+                    (!colonist.IsWorldPawn() && !WorldRendererUtility.WorldRenderedNow && colonist.Map == Find.CurrentMap) ||
+                    // Only peek a world pawn when the world is rendered.
+                    (colonist.IsWorldPawn() && WorldRendererUtility.WorldRenderedNow))
                 {
-                    Peek.SavePosition(WorldRendererUtility.WorldRenderedNow);
-                }
+                    Hover.Now = true;
 
-                if (Peek.PreviousColonist != colonist)
-                {
-                    Peek.NowColonist = colonist;
+                    if (!Peek.Previously)
+                    {
+                        Peek.SavePosition(WorldRendererUtility.WorldRenderedNow);
+                    }
+
+                    if (Peek.PreviousColonist != colonist)
+                    {
+                        Peek.NowColonist = colonist;
+                    }
                 }
             }
         }
@@ -67,11 +67,6 @@ namespace PawnPeeker
 
                     Hover.TryStart();
                 }
-            }
-
-            if (!Hover.Handled)
-            {
-                return;
             }
 
             bool isDonePeekingWhileLingering = false;
