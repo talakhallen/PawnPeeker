@@ -4,11 +4,6 @@ namespace PawnPeeker
 {
     static class Hover
     {
-        public static bool Handled = false;
-
-        public static bool Now = false;
-        public static bool Previously = false;
-
         public static float StartTime = float.NaN;
         public static float StopTime = float.NaN;
 

@@ -7,21 +7,18 @@ namespace PawnPeeker
 {
     static class Peek
     {
-        public static bool Now = false;
-        public static bool Previously = false;
-
-        public static bool Stay = false;
+        private static bool _stay = false;
 
         // To
         public static Pawn NowColonist;
         public static Pawn PreviousColonist;
 
         // From
-        public static bool FromWorld;
-        public static Vector3 FromWorldPosition;
+        private static bool _fromWorld;
+        private static Vector3 _fromWorldPosition;
 
-        public static IntVec3 FromMapPosition;
-        public static Map FromMap;
+        private static IntVec3 _fromMapPosition;
+        private static Map _fromMap;
 
         public static bool IsDonePeekingWhileLingering()
         {
@@ -76,50 +73,50 @@ namespace PawnPeeker
             // pawns are peeked.
             if (worldRenderedNow)
             {
-                if (!FromWorld || FromWorldPosition != Find.WorldCameraDriver.CurrentlyLookingAtPointOnSphere)
+                if (!_fromWorld || _fromWorldPosition != Find.WorldCameraDriver.CurrentlyLookingAtPointOnSphere)
                 {
-                    FromWorld = true;
+                    _fromWorld = true;
 
-                    FromWorldPosition = Find.WorldCameraDriver.CurrentlyLookingAtPointOnSphere;
+                    _fromWorldPosition = Find.WorldCameraDriver.CurrentlyLookingAtPointOnSphere;
 
-                    Debug.Log(string.Format("Peek pawn from world from {0}!", FromWorldPosition));
+                    Debug.Log(string.Format("Peek pawn from world from {0}!", _fromWorldPosition));
                 }
             }
             else
             {
-                if (FromWorld || FromMapPosition != Find.CameraDriver.MapPosition || FromMap != Find.CurrentMap)
+                if (_fromWorld || _fromMapPosition != Find.CameraDriver.MapPosition || _fromMap != Find.CurrentMap)
                 {
-                    FromWorld = false;
+                    _fromWorld = false;
 
-                    FromMapPosition = Find.CameraDriver.MapPosition;
-                    FromMap = Find.CurrentMap;
+                    _fromMapPosition = Find.CameraDriver.MapPosition;
+                    _fromMap = Find.CurrentMap;
 
-                    Debug.Log(string.Format("Peek pawn from {0} at {1}!", FromMap, FromMapPosition));
+                    Debug.Log(string.Format("Peek pawn from {0} at {1}!", _fromMap, _fromMapPosition));
                 }
             }
         }
 
         public static void TryStop()
         {
-            if (!Stay)
+            if (!_stay)
             {
-                if (FromWorld)
+                if (_fromWorld)
                 {
                     if (CameraJumper.TryShowWorld())
                     {
-                        Find.WorldCameraDriver.JumpTo(FromWorldPosition);
+                        Find.WorldCameraDriver.JumpTo(_fromWorldPosition);
                     }
                 }
                 else
                 {
-                    CameraJumper.TryJump(FromMapPosition, FromMap);
+                    CameraJumper.TryJump(_fromMapPosition, _fromMap);
                 }
             }
             else
             {
                 Debug.Log("Stay at pawn!");
 
-                Stay = false;
+                _stay = false;
             }
         }
     }

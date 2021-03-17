@@ -7,6 +7,14 @@ namespace PawnPeeker
 {
     class PawnPeeker : GameComponent
     {
+        private static bool _hoveringNow = false;
+        private static bool _hoveringPreviously = false;
+
+        private static bool _peekingNow = false;
+        private static bool _peekingPreviously = false;
+
+        private static bool _handledClick = false;
+
         public PawnPeeker()
         {
         }
@@ -17,18 +25,18 @@ namespace PawnPeeker
 
         public override void GameComponentOnGUI()
         {
-            Hover.Now = false;
+            _hoveringNow = false;
 
             if (Input.GetMouseButton(0) ||
                 Input.GetMouseButton(1) ||
                 Input.GetMouseButton(2))
             {
-                Did = true;
+                _handledClick = true;
 
                 return;
             }
 
-            Did = false;
+            _handledClick = false;
 
             if (Find.ColonistBar.ColonistOrCorpseAt(UI.MousePositionOnUIInverted) is Pawn colonist)
             {
@@ -38,9 +46,9 @@ namespace PawnPeeker
                     // Only peek a world pawn when the world is rendered.
                     (colonist.IsWorldPawn() && WorldRendererUtility.WorldRenderedNow))
                 {
-                    Hover.Now = true;
+                    _hoveringNow = true;
 
-                    if (!Peek.Previously)
+                    if (!_peekingPreviously)
                     {
                         Peek.SavePosition(WorldRendererUtility.WorldRenderedNow);
                     }
@@ -57,7 +65,7 @@ namespace PawnPeeker
         {
             // Reset the start time if there was a click and hovering has
             // not started.
-            if (HandleClicks.Did)
+            if (_handledClick)
             {
                 if (!float.IsNaN(Hover.StartTime) && !Hover.IsStarted())
                 {
@@ -72,7 +80,7 @@ namespace PawnPeeker
             bool isDonePeekingWhileLingering = false;
 
             // Hover
-            if (Hover.Now)
+            if (_hoveringNow)
             {
                 if (Hover.TryStart())
                 {
@@ -84,13 +92,13 @@ namespace PawnPeeker
                     Hover.StopTime = float.NaN;
                 }
 
-                if ((!Peek.Now ||
+                if ((!_peekingNow ||
                      (Peek.PreviousColonist != Peek.NowColonist)) &&
                     Hover.IsStarted())
                 {
                     Debug.Log("Started hovering!");
 
-                    Peek.Now = true;
+                    _peekingNow = true;
                 }
             }
             else
@@ -111,18 +119,18 @@ namespace PawnPeeker
                     }
                 }
 
-                if (Peek.Now && Peek.IsDonePeekingWhileLingering())
+                if (_peekingNow && Peek.IsDonePeekingWhileLingering())
                 {
                     Debug.Log("Done peeking while lingering!");
 
                     isDonePeekingWhileLingering = true;
                 }
 
-                if (Peek.Now && Peek.IsDoneLingering())
+                if (_peekingNow && Peek.IsDoneLingering())
                 {
                     Debug.Log("Done lingering!");
 
-                    Peek.Now = false;
+                    _peekingNow = false;
                 }
 
                 if (Hover.DidStartWaitTimeout())
@@ -136,7 +144,7 @@ namespace PawnPeeker
             }
 
             // Peek
-            if (Peek.Now)
+            if (_peekingNow)
             {
                 if (!isDonePeekingWhileLingering)
                 {
@@ -152,7 +160,7 @@ namespace PawnPeeker
             }
             else
             {
-                if (Peek.Previously)
+                if (_peekingPreviously)
                 {
                     Debug.Log("Done peeking!");
 
@@ -163,9 +171,9 @@ namespace PawnPeeker
                 }
             }
 
-            Hover.Previously = Hover.Now;
+            _hoveringPreviously = _hoveringNow;
 
-            Peek.Previously = Peek.Now;
+            _peekingPreviously = _peekingNow;
         }
     }
 }
