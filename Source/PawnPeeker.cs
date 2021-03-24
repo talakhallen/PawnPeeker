@@ -7,13 +7,9 @@ namespace PawnPeeker
 {
     class PawnPeeker : GameComponent
     {
-        private static bool _hoveringNow = false;
-        private static bool _hoveringPreviously = false;
-
-        private static bool _peekingNow = false;
-        private static bool _peekingPreviously = false;
-
         private static bool _handledClick = false;
+
+        private static Pawn _previousColonist = null;
 
         public PawnPeeker()
         {
@@ -23,157 +19,63 @@ namespace PawnPeeker
         {
         }
 
-        public override void GameComponentOnGUI()
+        private bool HandledClick()
         {
-            _hoveringNow = false;
+            return Input.GetMouseButton(0) || Input.GetMouseButton(1) || Input.GetMouseButton(2);
+        }
 
-            if (Input.GetMouseButton(0) ||
-                Input.GetMouseButton(1) ||
-                Input.GetMouseButton(2))
+        private bool CanPeekPawn(bool peekPawnsAnywhere, Pawn colonist, bool worldRenderedNow, Map currentMap)
+        {
+            return peekPawnsAnywhere ||
+                // Only peek a pawn when on the same map.
+                (!colonist.IsWorldPawn() && !worldRenderedNow && colonist.Map == currentMap) ||
+                // Only peek a world pawn when the world is rendered.
+                (colonist.IsWorldPawn() && worldRenderedNow);
+        }
+
+        public override void GameComponentUpdate()
+        {
+            bool enabled = KeyBindings.Enable != null && KeyBindings.Enable.IsDown;
+
+            if (!enabled)
             {
-                _handledClick = true;
-
                 return;
             }
 
-            _handledClick = false;
+            _handledClick = HandledClick();
+
+            if (_handledClick)
+            {
+                return;
+            }
 
             if (Find.ColonistBar.ColonistOrCorpseAt(UI.MousePositionOnUIInverted) is Pawn colonist)
             {
-                if (Settings.Peek.PawnsAnywhere ||
-                    // Only peek a pawn when on the same map.
-                    (!colonist.IsWorldPawn() && !WorldRendererUtility.WorldRenderedNow && colonist.Map == Find.CurrentMap) ||
-                    // Only peek a world pawn when the world is rendered.
-                    (colonist.IsWorldPawn() && WorldRendererUtility.WorldRenderedNow))
+                if (CanPeekPawn(Settings.Peek.PawnsAnywhere, colonist, WorldRendererUtility.WorldRenderedNow, Find.CurrentMap))
                 {
-                    _hoveringNow = true;
-
-                    if (!_peekingPreviously)
+                    if (_previousColonist != colonist)
                     {
-                        Peek.SavePosition(WorldRendererUtility.WorldRenderedNow);
+                        Debug.Log(string.Format("Peek {0}!", colonist.Name));
+
+                        _previousColonist = colonist;
                     }
 
-                    if (Peek.PreviousColonist != colonist)
+                    if (Peek.TryJump(colonist, WorldRendererUtility.WorldRenderedNow))
                     {
-                        Peek.NowColonist = colonist;
-                    }
-                }
-            }
-        }
+                        if (Settings.Peek.AndSelect)
+                        {
+                            if (!Find.Selector.IsSelected(colonist))
+                            {
+                                Debug.Log(string.Format("Select {0}!", colonist.Name));
 
-        public override void GameComponentTick()
-        {
-            // Reset the start time if there was a click and hovering has
-            // not started.
-            if (_handledClick)
-            {
-                if (!float.IsNaN(Hover.StartTime) && !Hover.IsStarted())
-                {
-                    Debug.Log("Reset start time after click!");
-
-                    Hover.StartTime = float.NaN;
-
-                    Hover.TryStart();
-                }
-            }
-
-            bool isDonePeekingWhileLingering = false;
-
-            // Hover
-            if (_hoveringNow)
-            {
-                if (Hover.TryStart())
-                {
-                    Debug.Log("Start hovering!");
-                }
-
-                if (!float.IsNaN(Hover.StopTime))
-                {
-                    Hover.StopTime = float.NaN;
-                }
-
-                if ((!_peekingNow ||
-                     (Peek.PreviousColonist != Peek.NowColonist)) &&
-                    Hover.IsStarted())
-                {
-                    Debug.Log("Started hovering!");
-
-                    _peekingNow = true;
-                }
-            }
-            else
-            {
-                // Reset the start time if hovering never started.
-                if (!float.IsNaN(Hover.StartTime) && !Hover.IsStarted())
-                {
-                    Debug.Log("Reset start time!");
-
-                    Hover.StartTime = float.NaN;
-                }
-
-                if (Hover.IsStarted())
-                {
-                    if (Hover.TryStop())
-                    {
-                        Debug.Log("Stop hovering!");
-                    }
-                }
-
-                if (_peekingNow && Peek.IsDonePeekingWhileLingering())
-                {
-                    Debug.Log("Done peeking while lingering!");
-
-                    isDonePeekingWhileLingering = true;
-                }
-
-                if (_peekingNow && Peek.IsDoneLingering())
-                {
-                    Debug.Log("Done lingering!");
-
-                    _peekingNow = false;
-                }
-
-                if (Hover.DidStartWaitTimeout())
-                {
-                    Debug.Log("Start wait timed out!");
-
-                    Hover.StopTime = float.NaN;
-
-                    Hover.StartTime = float.NaN;
-                }
-            }
-
-            // Peek
-            if (_peekingNow)
-            {
-                if (!isDonePeekingWhileLingering)
-                {
-                    Peek.TryJump(Peek.NowColonist, WorldRendererUtility.WorldRenderedNow);
-
-                    if (Peek.PreviousColonist != Peek.NowColonist)
-                    {
-                        Debug.Log(string.Format("Peek {0}!", Peek.NowColonist.Name));
-
-                        Peek.PreviousColonist = Peek.NowColonist;
+                                // TODO: Restore the previous selection after peeking.
+                                Find.Selector.ClearSelection();
+                                Find.Selector.Select(colonist);
+                            }
+                        }
                     }
                 }
             }
-            else
-            {
-                if (_peekingPreviously)
-                {
-                    Debug.Log("Done peeking!");
-
-                    if (!Settings.Peek.AndLinger)
-                    {
-                        Peek.TryStop();
-                    }
-                }
-            }
-
-            _hoveringPreviously = _hoveringNow;
-
-            _peekingPreviously = _peekingNow;
         }
     }
 }

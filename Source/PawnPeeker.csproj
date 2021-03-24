@@ -69,7 +69,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Debug.cs" />
-    <Compile Include="Hover.cs" />
+    <Compile Include="KeyBindings.cs" />
     <Compile Include="Mod.cs" />
     <Compile Include="PawnPeeker.cs" />
     <Compile Include="Peek.cs" />

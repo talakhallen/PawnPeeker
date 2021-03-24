@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<Defs>
+
+  <KeyBindingDef>
+    <category>PawnPeeker</category>
+    <defName>Enable</defName>
+    <label>Enable</label>
+    <defaultKeyCodeA>Z</defaultKeyCodeA>
+  </KeyBindingDef>
+
+</Defs>
+
