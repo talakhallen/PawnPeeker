@@ -37,8 +37,6 @@ namespace PawnPeeker
 
         public static void TryJump(Pawn colonist, bool worldRenderedNow)
         {
-            Patch.HandleClicks.ShouldHandleDoubleClick = false;
-
             if (Settings.Peek.AndSelect)
             {
                 if (!Find.Selector.IsSelected(colonist))
@@ -69,8 +67,6 @@ namespace PawnPeeker
 
                 Find.CameraDriver.JumpToCurrentMapLoc(colonist.DrawPos);
             }
-
-            Patch.HandleClicks.ShouldHandleDoubleClick = true;
         }
 
         public static void SavePosition(bool worldRenderedNow)
@@ -107,8 +103,6 @@ namespace PawnPeeker
         {
             if (!Stay)
             {
-                Patch.HandleClicks.ShouldHandleDoubleClick = false;
-
                 if (FromWorld)
                 {
                     if (CameraJumper.TryShowWorld())
@@ -120,8 +114,6 @@ namespace PawnPeeker
                 {
                     CameraJumper.TryJump(FromMapPosition, FromMap);
                 }
-
-                Patch.HandleClicks.ShouldHandleDoubleClick = true;
             }
             else
             {
