@@ -14,11 +14,5 @@ Hold the key and hover and persist on a pawn's portrait to peek their present po
 Source code is available at https://github.com/talakhallen/PawnPeeker.
   </description>
   <modDependencies>
-    <li>
-      <packageId>brrainz.harmony</packageId>
-      <displayName>Harmony</displayName>
-      <steamWorkshopUrl>steam://url/CommunityFilePage/2009463077</steamWorkshopUrl>
-      <downloadUrl>https://github.com/pardeike/HarmonyRimWorld/releases/latest</downloadUrl>
-    </li>
   </modDependencies>
 </ModMetaData>

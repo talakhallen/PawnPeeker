@@ -1,6 +1,5 @@
 ﻿using System.Reflection;
 
-using HarmonyLib;
 using Verse;
 
 using UnityEngine;
@@ -15,13 +14,6 @@ namespace PawnPeeker
             Debug.Log(Assembly.GetExecutingAssembly().ToString());
 
             GetSettings<Settings>();
-
-#if DEBUG
-            Harmony.DEBUG = true;
-#endif
-
-            Harmony harmony = new Harmony("com.talakhallen.PawnPeeker");
-            harmony.PatchAll();
         }
 
         public override void DoSettingsWindowContents(Rect inRect)
