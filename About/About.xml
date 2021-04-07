@@ -1,6 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 
 <ModMetaData>
+
   <name>Pawn Peeker</name>
   <author>Talak Hallen</author>
   <url>https://github.com/talakhallen/PawnPeeker</url>
@@ -15,4 +16,5 @@ Source code is available at https://github.com/talakhallen/PawnPeeker.
   </description>
   <modDependencies>
   </modDependencies>
+
 </ModMetaData>
