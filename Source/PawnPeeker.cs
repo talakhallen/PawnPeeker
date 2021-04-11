@@ -49,10 +49,14 @@ namespace PawnPeeker
                 return;
             }
 
+            bool peekedPawn = false;
+
             if (Find.ColonistBar.ColonistOrCorpseAt(UI.MousePositionOnUIInverted) is Pawn pawn)
             {
                 if (CanPeekPawn(Settings.Peek.PawnsAnywhere, pawn, WorldRendererUtility.WorldRenderedNow, Find.CurrentMap))
                 {
+                    peekedPawn = true;
+
                     if (_previousPawn != pawn)
                     {
                         Debug.Log(string.Format("Peek {0}!", pawn.Name));
@@ -71,6 +75,37 @@ namespace PawnPeeker
                                 // TODO: Restore the previous selection after peeking.
                                 Find.Selector.ClearSelection();
                                 Find.Selector.Select(pawn);
+                            }
+                        }
+                    }
+                }
+            }
+
+            if (!peekedPawn)
+            {
+                if (Settings.Peek.Selected)
+                {
+                    if (Find.Selector.FirstSelectedObject is Thing thing)
+                    {
+                        bool canPeek = false;
+
+                        if (thing is Pawn selectedPawn)
+                        {
+                            if (CanPeekPawn(Settings.Peek.PawnsAnywhere, selectedPawn, WorldRendererUtility.WorldRenderedNow, Find.CurrentMap))
+                            {
+                                canPeek = true;
+                            }
+                        }
+                        else
+                        {
+                            canPeek = true;
+                        }
+
+                        if (canPeek)
+                        {
+                            if (Peek.TryJump(thing, WorldRendererUtility.WorldRenderedNow))
+                            {
+                                Debug.Log(string.Format("Peek selected {0}!", thing.Label));
                             }
                         }
                     }

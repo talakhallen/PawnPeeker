@@ -12,6 +12,7 @@ namespace PawnPeeker
         {
             public static bool PawnsAnywhere;
             public static bool AndSelect;
+            public static bool Selected;
         }
 
         public static Settings Get()
@@ -41,6 +42,12 @@ namespace PawnPeeker
                                      "If false, do not select the pawn being peeked. " +
                                      "The peeked pawn remains selected even after peeking and it is impossible to select multiple pawns while peeking.");
 
+            /* Peek selected. */
+            settings.CheckboxLabeled("Peek selected",
+                                     ref Peek.Selected,
+                                     "If true, peek the selected thing. " +
+                                     "If false, do not peek the selected thing.");
+
             settings.End();
         }
 
@@ -48,6 +55,7 @@ namespace PawnPeeker
         {
             Scribe_Values.Look(ref Peek.AndSelect, "peekAndSelect", false);
             Scribe_Values.Look(ref Peek.PawnsAnywhere, "peekPawnsAnywhere", false);
+            Scribe_Values.Look(ref Peek.Selected, "peekSelected", false);
         }
     }
 }
