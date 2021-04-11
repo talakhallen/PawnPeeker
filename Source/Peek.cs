@@ -7,11 +7,11 @@ namespace PawnPeeker
 {
     static class Peek
     {
-        public static bool TryJump(Pawn pawn, bool worldRenderedNow)
+        public static bool TryJump(Thing thing, bool worldRenderedNow)
         {
-            if (pawn.IsWorldPawn())
+            if (thing is Pawn pawn && pawn.IsWorldPawn())
             {
-                CameraJumper.TryJump(pawn);
+                CameraJumper.TryJump(thing);
 
                 return false;
             }
@@ -22,12 +22,12 @@ namespace PawnPeeker
                     CameraJumper.TryHideWorld();
                 }
 
-                if (Find.CurrentMap != pawn.Map)
+                if (Find.CurrentMap != thing.Map)
                 {
-                    Current.Game.CurrentMap = pawn.Map;
+                    Current.Game.CurrentMap = thing.Map;
                 }
 
-                Find.CameraDriver.JumpToCurrentMapLoc(pawn.DrawPos);
+                Find.CameraDriver.JumpToCurrentMapLoc(thing.DrawPos);
 
                 return true;
             }
