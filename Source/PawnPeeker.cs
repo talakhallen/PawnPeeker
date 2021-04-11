@@ -9,7 +9,7 @@ namespace PawnPeeker
     {
         private static bool _handledClick = false;
 
-        private static Pawn _previousColonist = null;
+        private static Pawn _previousPawn = null;
 
         public PawnPeeker()
         {
@@ -24,13 +24,13 @@ namespace PawnPeeker
             return Input.GetMouseButton(0) || Input.GetMouseButton(1) || Input.GetMouseButton(2);
         }
 
-        private bool CanPeekPawn(bool peekPawnsAnywhere, Pawn colonist, bool worldRenderedNow, Map currentMap)
+        private bool CanPeekPawn(bool peekPawnsAnywhere, Pawn pawn, bool worldRenderedNow, Map currentMap)
         {
             return peekPawnsAnywhere ||
                 // Only peek a pawn when on the same map.
-                (!colonist.IsWorldPawn() && !worldRenderedNow && colonist.Map == currentMap) ||
+                (!pawn.IsWorldPawn() && !worldRenderedNow && pawn.Map == currentMap) ||
                 // Only peek a world pawn when the world is rendered.
-                (colonist.IsWorldPawn() && worldRenderedNow);
+                (pawn.IsWorldPawn() && worldRenderedNow);
         }
 
         public override void GameComponentUpdate()
@@ -49,28 +49,28 @@ namespace PawnPeeker
                 return;
             }
 
-            if (Find.ColonistBar.ColonistOrCorpseAt(UI.MousePositionOnUIInverted) is Pawn colonist)
+            if (Find.ColonistBar.ColonistOrCorpseAt(UI.MousePositionOnUIInverted) is Pawn pawn)
             {
-                if (CanPeekPawn(Settings.Peek.PawnsAnywhere, colonist, WorldRendererUtility.WorldRenderedNow, Find.CurrentMap))
+                if (CanPeekPawn(Settings.Peek.PawnsAnywhere, pawn, WorldRendererUtility.WorldRenderedNow, Find.CurrentMap))
                 {
-                    if (_previousColonist != colonist)
+                    if (_previousPawn != pawn)
                     {
-                        Debug.Log(string.Format("Peek {0}!", colonist.Name));
+                        Debug.Log(string.Format("Peek {0}!", pawn.Name));
 
-                        _previousColonist = colonist;
+                        _previousPawn = pawn;
                     }
 
-                    if (Peek.TryJump(colonist, WorldRendererUtility.WorldRenderedNow))
+                    if (Peek.TryJump(pawn, WorldRendererUtility.WorldRenderedNow))
                     {
                         if (Settings.Peek.AndSelect)
                         {
-                            if (!Find.Selector.IsSelected(colonist))
+                            if (!Find.Selector.IsSelected(pawn))
                             {
-                                Debug.Log(string.Format("Select {0}!", colonist.Name));
+                                Debug.Log(string.Format("Select {0}!", pawn.Name));
 
                                 // TODO: Restore the previous selection after peeking.
                                 Find.Selector.ClearSelection();
-                                Find.Selector.Select(colonist);
+                                Find.Selector.Select(pawn);
                             }
                         }
                     }
