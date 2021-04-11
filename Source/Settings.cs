@@ -34,7 +34,7 @@ namespace PawnPeeker
                                      "If true, peek pawns anywhere. " +
                                      "If false, only peek pawns on the same map.");
 
-            /* Peek select. */
+            /* Peek and select. */
             settings.CheckboxLabeled("Peek and select",
                                      ref Peek.AndSelect,
                                      "If true, select the pawn being peeked. " +
