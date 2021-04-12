@@ -8,6 +8,6 @@ namespace PawnPeeker
     [DefOf]
     public static class KeyBindings
     {
-        public static KeyBindingDef Enable;
+        public static KeyBindingDef Peek;
     }
 }

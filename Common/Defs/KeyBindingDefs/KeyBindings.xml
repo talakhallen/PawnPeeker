@@ -4,8 +4,8 @@
 
   <KeyBindingDef>
     <category>PawnPeeker</category>
-    <defName>Enable</defName>
-    <label>Enable</label>
+    <defName>Peek</defName>
+    <label>Peek</label>
     <defaultKeyCodeA>Z</defaultKeyCodeA>
   </KeyBindingDef>
 
