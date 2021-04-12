@@ -9,8 +9,6 @@ namespace PawnPeeker
     {
         private static bool _handledClick = false;
 
-        private static Pawn _previousPawn = null;
-
         public PawnPeeker()
         {
         }
@@ -57,12 +55,7 @@ namespace PawnPeeker
                 {
                     peekedPawn = true;
 
-                    if (_previousPawn != pawn)
-                    {
-                        Debug.Log(string.Format("Peek {0}!", pawn.Name));
-
-                        _previousPawn = pawn;
-                    }
+                    Debug.Log(string.Format("Peek {0}!", pawn.Name));
 
                     if (Peek.TryJump(pawn, WorldRendererUtility.WorldRenderedNow))
                     {
