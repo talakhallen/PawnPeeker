@@ -13,7 +13,7 @@ namespace PawnPeeker
             {
                 CameraJumper.TryJump(thing);
 
-                return false;
+                return true;
             }
             else
             {
