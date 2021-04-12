@@ -71,6 +71,10 @@ namespace PawnPeeker
                             }
                         }
                     }
+                    else
+                    {
+                        Log.Error(string.Format("Could not peek {0}!", pawn.Name));
+                    }
                 }
             }
 
@@ -99,6 +103,10 @@ namespace PawnPeeker
                             if (Peek.TryJump(thing, WorldRendererUtility.WorldRenderedNow))
                             {
                                 Debug.Log(string.Format("Peek selected {0}!", thing.Label));
+                            }
+                            else
+                            {
+                                Log.Error(string.Format("Could not peek selected {0}!", thing.Label));
                             }
                         }
                     }
