@@ -25,7 +25,7 @@ namespace PawnPeeker
                     }
                 }
 
-                if (Find.CurrentMap != thing.Map)
+                if (Current.Game.CurrentMap != thing.Map)
                 {
                     Current.Game.CurrentMap = thing.Map;
                 }
