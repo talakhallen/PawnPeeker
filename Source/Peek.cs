@@ -19,7 +19,10 @@ namespace PawnPeeker
             {
                 if (worldRenderedNow)
                 {
-                    CameraJumper.TryHideWorld();
+                    if (!CameraJumper.TryHideWorld())
+                    {
+                        Log.Warning("Could not hide world!");
+                    }
                 }
 
                 if (Find.CurrentMap != thing.Map)
