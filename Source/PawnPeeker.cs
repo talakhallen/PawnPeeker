@@ -7,8 +7,6 @@ namespace PawnPeeker
 {
     class PawnPeeker : GameComponent
     {
-        private static bool _handledClick = false;
-
         public PawnPeeker()
         {
         }
@@ -40,9 +38,7 @@ namespace PawnPeeker
                 return;
             }
 
-            _handledClick = HandledClick();
-
-            if (_handledClick)
+            if (HandledClick())
             {
                 return;
             }
