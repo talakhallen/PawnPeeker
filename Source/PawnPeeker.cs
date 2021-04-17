@@ -59,11 +59,16 @@ namespace PawnPeeker
                         {
                             if (!Find.Selector.IsSelected(pawn))
                             {
-                                Debug.Log(string.Format("Select {0}!", pawn.Name));
-
                                 // TODO: Restore the previous selection after peeking.
                                 Find.Selector.ClearSelection();
-                                Find.Selector.Select(pawn);
+
+                                // World pawns cannot be selected.
+                                if (!pawn.IsWorldPawn())
+                                {
+                                    Debug.Log(string.Format("Select {0}!", pawn.Name));
+
+                                    Find.Selector.Select(pawn);
+                                }
                             }
                         }
                     }
