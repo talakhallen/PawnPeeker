@@ -11,7 +11,7 @@ namespace PawnPeeker
         {
             if (thing is Pawn pawn && pawn.IsWorldPawn())
             {
-                CameraJumper.TryJump(thing);
+                CameraJumper.TryJump(pawn);
 
                 return true;
             }
