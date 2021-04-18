@@ -74,7 +74,7 @@ namespace PawnPeeker
             {
                 if (Settings.Peek.Selected)
                 {
-                    Thing thing = Select.GetSelected();
+                    Thing thing = Select.GetSelected(WorldRendererUtility.WorldRenderedNow);
                     if (thing != null &&
                         (!(thing is Pawn) || CanPeekPawn(Settings.Peek.PawnsAnywhere, thing as Pawn, WorldRendererUtility.WorldRenderedNow, Find.CurrentMap)))
                     {

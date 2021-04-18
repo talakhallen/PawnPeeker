@@ -41,11 +41,24 @@ namespace PawnPeeker
             return true;
         }
 
-        public static Thing GetSelected()
+        public static Thing GetSelected(bool worldRenderedNow)
         {
-            if (Find.Selector.FirstSelectedObject is Thing thing)
+            if (!worldRenderedNow)
             {
-                return thing;
+                if (Find.Selector.FirstSelectedObject is Thing thing)
+                {
+                    return thing;
+                }
+            }
+            else
+            {
+                foreach (Pawn worldPawn in Find.ColonistBar.GetColonistsInOrder())
+                {
+                    if (Find.WorldSelector.IsSelected(worldPawn.GetCaravan()))
+                    {
+                        return worldPawn;
+                    }
+                }
             }
 
             return null;
