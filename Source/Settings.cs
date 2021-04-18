@@ -2,8 +2,6 @@
 
 using UnityEngine;
 
-using System;
-
 namespace PawnPeeker
 {
     class Settings : ModSettings

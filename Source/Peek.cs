@@ -1,8 +1,6 @@
 ﻿using RimWorld.Planet;
 using Verse;
 
-using UnityEngine;
-
 namespace PawnPeeker
 {
     static class Peek
