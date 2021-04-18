@@ -29,8 +29,8 @@ using System.Runtime.InteropServices;
 //      Revision
 //
 #if DEBUG
-[assembly: AssemblyVersion("0.3.*")]
+[assembly: AssemblyVersion("0.4.*")]
 #else
-[assembly: AssemblyVersion("0.3.0.0")]
-[assembly: AssemblyFileVersion("0.3.0.0")]
+[assembly: AssemblyVersion("0.4.0.0")]
+[assembly: AssemblyFileVersion("0.4.0.0")]
 #endif
