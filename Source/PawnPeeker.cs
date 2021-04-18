@@ -57,18 +57,9 @@ namespace PawnPeeker
                     {
                         if (Settings.Peek.AndSelect)
                         {
-                            if (!Find.Selector.IsSelected(pawn))
+                            if (!Select.TrySelect(pawn))
                             {
-                                // TODO: Restore the previous selection after peeking.
-                                Find.Selector.ClearSelection();
-
-                                // World pawns cannot be selected.
-                                if (!pawn.IsWorldPawn())
-                                {
-                                    Debug.Log(string.Format("Select {0}!", pawn.Name));
-
-                                    Find.Selector.Select(pawn);
-                                }
+                                Log.Error(string.Format("Could not select {0}!", pawn.Name));
                             }
                         }
                     }
