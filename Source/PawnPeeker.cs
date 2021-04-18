@@ -74,32 +74,17 @@ namespace PawnPeeker
             {
                 if (Settings.Peek.Selected)
                 {
-                    if (Find.Selector.FirstSelectedObject is Thing thing)
+                    Thing thing = Select.GetSelected();
+                    if (thing != null &&
+                        (!(thing is Pawn) || CanPeekPawn(Settings.Peek.PawnsAnywhere, thing as Pawn, WorldRendererUtility.WorldRenderedNow, Find.CurrentMap)))
                     {
-                        bool canPeek = false;
-
-                        if (thing is Pawn selectedPawn)
+                        if (Peek.TryJump(thing, WorldRendererUtility.WorldRenderedNow))
                         {
-                            if (CanPeekPawn(Settings.Peek.PawnsAnywhere, selectedPawn, WorldRendererUtility.WorldRenderedNow, Find.CurrentMap))
-                            {
-                                canPeek = true;
-                            }
+                            Debug.Log(string.Format("Peek selected {0}!", thing.Label));
                         }
                         else
                         {
-                            canPeek = true;
-                        }
-
-                        if (canPeek)
-                        {
-                            if (Peek.TryJump(thing, WorldRendererUtility.WorldRenderedNow))
-                            {
-                                Debug.Log(string.Format("Peek selected {0}!", thing.Label));
-                            }
-                            else
-                            {
-                                Log.Error(string.Format("Could not peek selected {0}!", thing.Label));
-                            }
+                            Log.Error(string.Format("Could not peek selected {0}!", thing.Label));
                         }
                     }
                 }

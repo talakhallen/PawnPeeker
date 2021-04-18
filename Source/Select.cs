@@ -40,5 +40,15 @@ namespace PawnPeeker
 
             return true;
         }
+
+        public static Thing GetSelected()
+        {
+            if (Find.Selector.FirstSelectedObject is Thing thing)
+            {
+                return thing;
+            }
+
+            return null;
+        }
     }
 }
