@@ -51,8 +51,8 @@ namespace PawnPeeker
 
         public override void ExposeData()
         {
-            Scribe_Values.Look(ref Peek.AndSelect, "peekAndSelect", false);
             Scribe_Values.Look(ref Peek.PawnsAnywhere, "peekPawnsAnywhere", false);
+            Scribe_Values.Look(ref Peek.AndSelect, "peekAndSelect", false);
             Scribe_Values.Look(ref Peek.Selected, "peekSelected", false);
         }
     }
