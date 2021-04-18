@@ -43,13 +43,13 @@ namespace PawnPeeker
                 return;
             }
 
-            bool peekedPawn = false;
+            bool pawnPeeked = false;
 
             if (Find.ColonistBar.ColonistOrCorpseAt(UI.MousePositionOnUIInverted) is Pawn pawn)
             {
                 if (CanPeekPawn(Settings.Peek.PawnsAnywhere, pawn, WorldRendererUtility.WorldRenderedNow, Find.CurrentMap))
                 {
-                    peekedPawn = true;
+                    pawnPeeked = true;
 
                     Debug.Log(string.Format("Peek {0}!", pawn.Name));
 
@@ -70,7 +70,7 @@ namespace PawnPeeker
                 }
             }
 
-            if (!peekedPawn)
+            if (!pawnPeeked)
             {
                 if (Settings.Peek.Selected)
                 {
