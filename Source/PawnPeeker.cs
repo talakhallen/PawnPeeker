@@ -31,9 +31,9 @@ namespace PawnPeeker
 
         public override void GameComponentUpdate()
         {
-            bool enabled = KeyBindings.Peek != null && KeyBindings.Peek.IsDown;
+            bool peeking = KeyBindings.Peek != null && KeyBindings.Peek.IsDown;
 
-            if (!enabled)
+            if (!peeking)
             {
                 return;
             }
