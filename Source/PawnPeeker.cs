@@ -47,6 +47,14 @@ namespace PawnPeeker
 
             if (Find.ColonistBar.ColonistOrCorpseAt(UI.MousePositionOnUIInverted) is Pawn pawn)
             {
+                // If a pawn is being carried by another pawn, peek that pawn
+                // instead. This prevents the world from being peeked in a
+                // glitchy way.
+                if (pawn.CarriedBy != null)
+                {
+                    pawn = pawn.CarriedBy;
+                }
+
                 if (CanPeekPawn(Settings.Peek.PawnsAnywhere, pawn, WorldRendererUtility.WorldRenderedNow, Find.CurrentMap))
                 {
                     pawnPeeked = true;
