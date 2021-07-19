@@ -5,9 +5,9 @@ namespace PawnPeeker
     class Debug
     {
         [Conditional("DEBUG")]
-        public static void Log(string text, bool ignoreStopLoggingLimit = false)
+        public static void Log(string text)
         {
-            Verse.Log.Message(text, ignoreStopLoggingLimit);
+            Verse.Log.Message(text);
         }
     }
 }
