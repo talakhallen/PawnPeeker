@@ -57,12 +57,12 @@ namespace PawnPeeker
 
                 if (CanPeekPawn(Settings.Peek.PawnsAnywhere, pawn, WorldRendererUtility.WorldRenderedNow, Find.CurrentMap))
                 {
-                    pawnPeeked = true;
-
-                    Debug.Log(string.Format("Peek {0}!", pawn.Name));
-
                     if (Peek.TryJump(pawn, WorldRendererUtility.WorldRenderedNow))
                     {
+                        Debug.Log(string.Format("Peek {0}!", pawn.Name));
+
+                        pawnPeeked = true;
+
                         if (Settings.Peek.AndSelect)
                         {
                             if (!Select.TrySelect(pawn))
