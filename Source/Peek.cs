@@ -7,9 +7,9 @@ namespace PawnPeeker
     {
         public static bool TryJump(Thing thing, bool worldRenderedNow)
         {
-            if (thing is Pawn pawn && pawn.IsWorldPawn())
+            if (thing.Map == null || (thing is Pawn pawn && pawn.IsWorldPawn()))
             {
-                CameraJumper.TryJump(pawn);
+                CameraJumper.TryJump(thing);
 
                 return true;
             }
