@@ -7,6 +7,11 @@ namespace PawnPeeker
     {
         public static bool TrySelect(Pawn pawn)
         {
+            if (pawn.Map == null)
+            {
+                return true;
+            }
+
             if (!pawn.IsWorldPawn())
             {
                 if (!Find.Selector.IsSelected(pawn))
